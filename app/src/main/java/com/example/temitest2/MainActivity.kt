@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Device
 import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -99,7 +100,7 @@ private fun hilfeDurchsage(context: Context, robot:Robot?, ansage: String){
     Toast.makeText(context, ansage, Toast.LENGTH_LONG).show()
 
     if (robot != null) {
-        val ttsRequest = create(speech = ansage, true)
+        val ttsRequest = create(speech = ansage, false)
         robot.speak(ttsRequest)
     }
 }
@@ -124,7 +125,8 @@ fun Navigation(){
     val ansage : String = "Hi, ich bin Temi. Ich kann dir helfen, " +
             "einen Ort in diesem Gebäude zu finden. " +
             "Wenn ich deinen Ort aufzähle, unterbreche mich mit “Hey Temi” " +
-            "und nenne mir deinen Ort. "
+            "und nenne mir deinen Ort. Behinderten WC, Damen WC, Herren WC, " +
+            "Aufzug, Treppe, Eingang, Sitzecke und hinteres Labor."
 
 
 //  Start des Screenlayouts
@@ -149,7 +151,7 @@ fun Navigation(){
             onClick = { activity?.finish() },
             colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFF3C3C3C)),
             modifier = Modifier
-                .align(Alignment.TopEnd)
+                .align(Alignment.BottomEnd)
                 .size(100.dp)
             ) {
             Text(
@@ -254,10 +256,14 @@ fun Navigation(){
 
 //      Legende
         Column (modifier = Modifier
-            .align(Alignment.BottomEnd)
-            .padding(end = 30.dp, bottom = 50.dp),
+            .align(Alignment.TopEnd)
+            .padding(end = 30.dp, bottom = 30.dp, top = 30.dp),
         ) {
-            Text(text = "Legende", color = Color.White, fontWeight = FontWeight(600))
+            Text(
+                text = "Legende",
+                color = Color.White,
+                fontWeight = FontWeight(600),
+                fontSize = 20.sp)
             Legendenpunkt(icon_drawable = R.drawable.be_wc, ziel = "Behinderten-WC")
             Legendenpunkt(icon_drawable = R.drawable.d_wc, ziel = "Damen-WC")
             Legendenpunkt(icon_drawable = R.drawable.h_wc, ziel = "Herren-WC")
@@ -301,16 +307,16 @@ fun Goto_Btn(ort:String,
 
 @Composable
 fun Legendenpunkt(icon_drawable: Int, ziel : String){
-    Row (modifier = Modifier.padding(top = 10.dp)){
+    Row (modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically){
         Image(
             painter = painterResource(id = icon_drawable),
             contentDescription = null,
             modifier = Modifier
-                .height(20.dp)
-                .padding(end = 10.dp),
+                .size(40.dp)
+                .padding(end = 13.dp),
             colorFilter = ColorFilter.tint(color = Color(0xFF49EACC))
         )
-        Text(text = ziel, color = Color.White)
+        Text(text = ziel, color = Color.White, fontSize = 20.sp)
     }
 }
 
